@@ -19,7 +19,7 @@ export default function WelcomeScreen() {
     setTimeout(()=> ring1Padding.value = withSpring(ring1Padding.value + hp(17)), 100);
     setTimeout(()=> ring2Padding.value = withSpring(ring2Padding.value + hp(13.5)), 300);
 
-    setTimeout(()=> navigation.navigate('Home'), 1500);
+    setTimeout(()=> navigation.navigate('Home'), 2500);
 
   }, [])
 

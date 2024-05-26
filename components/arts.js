@@ -7,23 +7,23 @@ import MasonryList from '@react-native-seoul/masonry-list';
 import Loading from './loading';
 import { CachedImage } from '../helpers/image';
 import { useNavigation } from '@react-navigation/native';
-import RecipeDetailScreen from '../Screens/RecipeDetailScreen';
+import RecipeDetailScreen from '../Screens/ArtDetailScreen';
 
-export default function Recipes({categories, meals}) {
+export default function Artworks({categories, arts}) {
     const navigation = useNavigation();
 
     return (
         <View style={tw`mx-4 mt-3 mb-3`}>
-            <Text style={[{fontSize: hp(3)}, tw`font-semibold text-neutral-600`]}>Recipes</Text>
+            <Text style={[{fontSize: hp(3)}, tw`font-semibold text-neutral-600`]}>Artworks</Text>
             <View>
                 {
-                    categories.length == 0 || meals.length == 0 ? (<Loading  size="large" style={tw`mt-30`}/>) : (
+                    arts.length == 0 ? (<Loading  size="large" style={tw`mt-30`}/>) : (
                         <MasonryList
-                            data={meals}
-                            keyExtractor={(item)=> item.idMeal}
+                            data={arts}
+                            keyExtractor={(item)=> item.createdAt}
                             numColumns={2}
                             showsVerticalScrollIndicator={false}
-                            renderItem={({item, i}) => <RecipeCard item = {item} index = {i} navigation = {navigation} />}
+                            renderItem={({item, i}) => <ArtCard item = {item} index = {i} navigation = {navigation} />}
                             //refreshing={isLoadingNext}
                         //onRefresh={() => refetch({first: ITEM_CNT})}
                             onEndReachedThreshold={0.1}
@@ -36,20 +36,20 @@ export default function Recipes({categories, meals}) {
     )
 }
 
-const RecipeCard = ({item, index, navigation}) => {
+const ArtCard = ({item, index, navigation}) => {
     let isEven = index % 2 == 0;
     return(
         <Animated.View entering={FadeInDown.delay(index * 100).duration(600).springify().damping(20)}>
             <Pressable
                 style={[{width: '100%', paddingLeft: isEven ? 0 : 8, paddingRight: isEven ? 8 : 0},
                  tw`flex justify-center mb-4 mb-1 mt-1`]}
-                 onPress={() =>  navigation.navigate('RecipeDetailScreen', {...item})}
+                 onPress={() =>  navigation.navigate('ArtDetailScreen', {...item})}
                 >
                     <Image 
-                        source={{uri: item.strMealThumb}}
+                        source={{uri: item.imageUrl}}
                         style={[{width: '100%', height: index % 3 == 0 ? hp(25) : hp(35), borderRadius: 35}, 
                         tw`bg-black/5`]}
-                        sharedTransitionTag={item.strMeal}
+                        sharedTransitionTag={item.aName}
                         />
                         {/* Cached Image component */}
                         {/* <CachedImage 
@@ -60,7 +60,7 @@ const RecipeCard = ({item, index, navigation}) => {
                         /> */}
                 <Text style={[{fontSize: hp(1.5)}, tw`font-semibold ml-2 text-neutral-600`]}>
                     {
-                        item.strMeal.length > 20 ? item.strMeal.slice(0, 20)+'...' : item.strMeal
+                        item.aName
                     }
                 </Text>
                 </Pressable>
