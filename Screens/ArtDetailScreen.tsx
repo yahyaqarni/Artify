@@ -6,23 +6,33 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 import { HeartIcon } from 'react-native-heroicons/solid';
 import tw from 'twrnc';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import Loading from '../components/loading';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
 
-export default function ArtDetailScreen(props) {
-    let item = props.route.params;
-    const [isFavourite, setIsFavourite] = useState(false);
-    const navigation = useNavigation();
-    const [loading, setLoading] = useState(true);
-    
+type ArtDetailScreenProps = {
+    route: {
+      params: {
+        aName: string;
+        aArtist: string;
+        aDescription: string;
+        imageUrl: string;
+      };
+    };
+  };
 
-    useEffect(() => {
-        if(item){
-            setLoading(false);
-        }
-    }, [])
+export default function ArtDetailScreen(props: ArtDetailScreenProps) {
+  const { aName, aArtist, aDescription, imageUrl } = props.route.params;
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  const navigation = useNavigation<NavigationProp<any>>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (props.route.params) {
+      setLoading(false);
+    }
+  }, []);
 
     return(
         <ScrollView
@@ -35,8 +45,8 @@ export default function ArtDetailScreen(props) {
             {/* art image */}
             <View style={tw`flex-row justify-center`}>
                 <CachedImage
-                uri = {item.imageUrl}
-                sharedTransitionTag={item.aName}
+                uri = {imageUrl}
+                sharedTransitionTag={aName}
                 style={{width:wp(98), height: hp(50), 
                     borderRadius: 53, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, marginTop: 4}} 
             />
@@ -64,12 +74,12 @@ export default function ArtDetailScreen(props) {
                     <View style = {tw`px-4 flex justify-between mt-4 mb-4 pt-8`}>
                         {/* name and area */}
                         <Animated.View entering={FadeInDown.duration(700).springify().damping(12)}
-                        stlye = {tw`mt-2 mb-2`}>
+                        style = {tw`mt-2 mb-2`}>
                             <Text style = {[{fontSize: hp(3)}, tw`font-bold flex-1 text-neutral-700`]}>
-                                {item.aName}
+                                {aName}
                             </Text>
                             <Text style = {[{fontSize: hp(2)}, tw`font-medium flex-1 text-neutral-500`]}>
-                                Artist: {item.aArtist}
+                                Artist: {aArtist}
                             </Text>
                         </Animated.View>
 
@@ -82,7 +92,7 @@ export default function ArtDetailScreen(props) {
                                 </Text>
                                 <Text style={[{fontSize: hp(1.6)}, tw`text-neutral-700`]}>
                                     {
-                                        item.aDescription
+                                        aDescription
                                     }
                                 </Text>
                             </Animated.View>
