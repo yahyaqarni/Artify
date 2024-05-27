@@ -5,9 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import MasonryList from '@react-native-seoul/masonry-list';
 import Loading from './loading';
-import { CachedImage } from '../helpers/image';
 import { useNavigation } from '@react-navigation/native';
-import RecipeDetailScreen from '../Screens/ArtDetailScreen';
 
 export default function Artworks({categories, arts}) {
     const navigation = useNavigation();

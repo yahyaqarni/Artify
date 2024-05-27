@@ -5,7 +5,6 @@ import tw from 'twrnc';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { BellIcon, MagnifyingGlassIcon } from 'react-native-heroicons/outline';
 import Categories from '../components/categories';
-import axios from 'axios';
 import { ref as dbRef, onValue } from 'firebase/database';
 import { db, storage } from '../lib/firebase';
 import Artworks from '../components/arts';
@@ -22,7 +21,8 @@ export default class HomeScreen extends Component<{}, HomeScreenState> {
     this.state = {
       activeCategory: 'Arts',
       categories: [],
-      artworks: [],
+      artworks: []
+
     };
   }
 
